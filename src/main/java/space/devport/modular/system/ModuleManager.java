@@ -1,6 +1,7 @@
 package space.devport.modular.system;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import space.devport.modular.DevportModular;
 import space.devport.modular.FileUtil;
 import space.devport.modular.system.struct.AbstractModule;
@@ -73,7 +74,7 @@ public class ModuleManager {
      * Load module by name.
      */
     public AbstractModule load(String name) {
-        File moduleFile = new File(moduleFolder, name + (name.endsWith(".jar") ? "" : ".jar"));
+        File moduleFile = advancedFileSearch(name);
 
         if (!moduleFile.exists()) {
             plugin.getConsoleOutput().err("Could not load module " + name + ", doesn't exist.");
@@ -90,6 +91,21 @@ public class ModuleManager {
         }
 
         return register(moduleClass, true);
+    }
+
+    @NotNull
+    private File advancedFileSearch(String name) {
+        for (File file : moduleFolder.listFiles()) {
+            String fileName = file.getName().toLowerCase()
+                    .replace(".jar", "");
+
+            if (fileName.contains("-"))
+                fileName = fileName.split("-")[0];
+
+            if (fileName.equals(name.toLowerCase()) || fileName.startsWith(name.toLowerCase()))
+                return file;
+        }
+        return new File(moduleFolder, name);
     }
 
     public AbstractModule getModule(String name) {
