@@ -36,7 +36,7 @@ public abstract class AbstractModule {
     }
 
     public Configuration getConfiguration() {
-        return modular.getConfiguration();
+        return modular.getModules();
     }
 
     public void enable() {
