@@ -17,13 +17,14 @@ public class LoadSubCommand extends ModularSubCommand {
     @Override
     protected CommandResult perform(CommandSender sender, String label, String[] args) {
 
-        if (!getPlugin().getModuleManager().load(args[0])) {
+        AbstractModule module = getPlugin().getModuleManager().load(args[0]);
+
+        if (module == null) {
             language.getPrefixed("Commands.Load.Error")
                     .replace("%param%", args[0])
                     .send(sender);
             return CommandResult.FAILURE;
         } else {
-            AbstractModule module = getPlugin().getModuleManager().getModule(args[0]);
             language.getPrefixed("Commands.Load.Done")
                     .replace("%module%", module.getName())
                     .replace("%state%", getState(module.isEnabled()))

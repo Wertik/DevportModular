@@ -36,13 +36,13 @@ public class ModuleManager {
         }
     }
 
-    public boolean register(Class<? extends AbstractModule> moduleClass, boolean... enable) {
+    public AbstractModule register(Class<? extends AbstractModule> moduleClass, boolean... enable) {
 
         AbstractModule module = createInstance(moduleClass);
 
         if (this.registeredModules.containsKey(module.getName())) {
             plugin.getConsoleOutput().err("Could not register " + module.getName() + ", already registered.");
-            return false;
+            return null;
         }
 
         this.registeredModules.put(module.getName(), module);
@@ -52,7 +52,7 @@ public class ModuleManager {
             module.onLoad();
             module.enable();
         }
-        return true;
+        return module;
     }
 
     public void unregister(AbstractModule module) {
@@ -72,12 +72,12 @@ public class ModuleManager {
     /**
      * Load module by name.
      */
-    public boolean load(String name) {
+    public AbstractModule load(String name) {
         File moduleFile = new File(moduleFolder, name + (name.endsWith(".jar") ? "" : ".jar"));
 
         if (!moduleFile.exists()) {
             plugin.getConsoleOutput().err("Could not load module " + name + ", doesn't exist.");
-            return false;
+            return null;
         }
 
         Class<? extends AbstractModule> moduleClass;
@@ -86,7 +86,7 @@ public class ModuleManager {
         } catch (IOException | ClassNotFoundException e) {
             plugin.getConsoleOutput().err("Could not load module " + name + ", " + e.getMessage());
             e.printStackTrace();
-            return false;
+            return null;
         }
 
         return register(moduleClass, true);
