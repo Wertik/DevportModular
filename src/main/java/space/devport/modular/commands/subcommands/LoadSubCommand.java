@@ -8,6 +8,11 @@ import space.devport.modular.system.struct.AbstractModule;
 import space.devport.utils.commands.struct.ArgumentRange;
 import space.devport.utils.commands.struct.CommandResult;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class LoadSubCommand extends ModularSubCommand {
 
     public LoadSubCommand(DevportModular modular) {
@@ -31,6 +36,16 @@ public class LoadSubCommand extends ModularSubCommand {
                     .send(sender);
         }
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> requestTabComplete(CommandSender sender, String[] args) {
+        if (args.length == 1) {
+            return Arrays.stream(getPlugin().getModuleManager().getModuleFolder().listFiles())
+                    .map(f -> f.getName().replace(".jar", "").split("-")[0])
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 
     private String getState(boolean bool) {

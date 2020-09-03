@@ -8,6 +8,9 @@ import space.devport.modular.system.struct.AbstractModule;
 import space.devport.utils.commands.struct.ArgumentRange;
 import space.devport.utils.commands.struct.CommandResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DisableSubCommand extends ModularSubCommand {
 
     public DisableSubCommand(DevportModular modular) {
@@ -32,6 +35,11 @@ public class DisableSubCommand extends ModularSubCommand {
                 .replace("%state%", getState(module.isEnabled()))
                 .send(sender);
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> requestTabComplete(CommandSender sender, String[] args) {
+        return args.length == 1 ? new ArrayList<>(getPlugin().getModuleManager().getModules()) : new ArrayList<>();
     }
 
     private String getState(boolean bool) {

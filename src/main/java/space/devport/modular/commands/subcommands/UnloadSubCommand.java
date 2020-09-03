@@ -8,6 +8,9 @@ import space.devport.modular.system.struct.AbstractModule;
 import space.devport.utils.commands.struct.ArgumentRange;
 import space.devport.utils.commands.struct.CommandResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UnloadSubCommand extends ModularSubCommand {
 
     public UnloadSubCommand(DevportModular modular) {
@@ -31,6 +34,11 @@ public class UnloadSubCommand extends ModularSubCommand {
                 .replace("%module%", module.getName())
                 .send(sender);
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> requestTabComplete(CommandSender sender, String[] args) {
+        return args.length == 1 ? new ArrayList<>(getPlugin().getModuleManager().getModules()) : new ArrayList<>();
     }
 
     @Override
