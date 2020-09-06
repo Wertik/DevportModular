@@ -22,7 +22,7 @@ public class ReloadSubCommand extends ModularSubCommand {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("all")) {
-                getPlugin().getModuleManager().call(AbstractModule::onReload);
+                getPlugin().getModuleManager().callAction(AbstractModule::onReload);
                 language.getPrefixed("Commands.Reload.Done-All")
                         .replace("%count%", getPlugin().getModuleManager().getModules().size())
                         .send(sender);

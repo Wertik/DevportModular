@@ -5,12 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import space.devport.modular.DevportModular;
 import space.devport.modular.FileUtil;
 import space.devport.modular.system.struct.AbstractModule;
-import space.devport.modular.system.struct.MethodCall;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class ModuleManager {
 
@@ -112,9 +112,9 @@ public class ModuleManager {
         return this.registeredModules.get(name);
     }
 
-    public void call(MethodCall<AbstractModule> call) {
+    public void callAction(Consumer<AbstractModule> action) {
         for (AbstractModule module : this.registeredModules.values()) {
-            call.call(module);
+            action.accept(module);
         }
     }
 

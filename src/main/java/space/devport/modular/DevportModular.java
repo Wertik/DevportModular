@@ -32,7 +32,7 @@ public class DevportModular extends DevportPlugin {
         this.moduleManager.load();
 
         // Call on load
-        this.moduleManager.call(AbstractModule::onLoad);
+        this.moduleManager.callAction(AbstractModule::onLoad);
     }
 
     @Override
@@ -48,17 +48,17 @@ public class DevportModular extends DevportPlugin {
                 .addSubCommand(new DisableSubCommand(this))
                 .addSubCommand(new EnableSubCommand(this));
 
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.moduleManager.call(AbstractModule::enable));
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.moduleManager.callAction(AbstractModule::enable));
     }
 
     @Override
     public void onPluginDisable() {
-        this.moduleManager.call(AbstractModule::disable);
+        this.moduleManager.callAction(AbstractModule::disable);
     }
 
     @Override
     public void onReload() {
-        this.moduleManager.call(AbstractModule::reload);
+        this.moduleManager.callAction(AbstractModule::reload);
     }
 
     @Override
