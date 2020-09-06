@@ -1,6 +1,7 @@
 package space.devport.modular;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import space.devport.modular.commands.ModularCommand;
 import space.devport.modular.commands.subcommands.*;
 import space.devport.modular.system.ModuleManager;
@@ -47,7 +48,7 @@ public class DevportModular extends DevportPlugin {
                 .addSubCommand(new DisableSubCommand(this))
                 .addSubCommand(new EnableSubCommand(this));
 
-        this.moduleManager.call(AbstractModule::enable);
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.moduleManager.call(AbstractModule::enable));
     }
 
     @Override
